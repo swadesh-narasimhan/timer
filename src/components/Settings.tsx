@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Settings, Season } from '../types';
+import type { Settings } from '../types';
 import { SEASONS, SEASON_LABELS } from '../context/AppContext';
 
 interface SettingsProps {
@@ -9,6 +9,17 @@ interface SettingsProps {
 
 export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Helper to format hour for preview display
+  const formatHour = (hour: number | null) => {
+    if (hour === null) return 'Live Local Time';
+    const h = Math.floor(hour);
+    const m = Math.round((hour - h) * 60);
+    const mStr = m < 10 ? `0${m}` : `${m}`;
+    const period = h >= 12 ? 'PM' : 'AM';
+    const displayH = h % 12 === 0 ? 12 : h % 12;
+    return `${displayH}:${mStr} ${period} (Preview)`;
+  };
 
   return (
     <>
@@ -34,9 +45,7 @@ export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
         <div className="settings-content">
           {/* Season Settings */}
           <div className="setting-group">
-            <label>
-              Atmosphere / Season
-            </label>
+            <label>Atmosphere / Season</label>
             <div className="season-settings-grid">
               {SEASONS.map((s) => {
                 const info = SEASON_LABELS[s];
@@ -72,6 +81,69 @@ export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
 
           <hr className="setting-divider" />
 
+          {/* Time of Day & Celestial Horizon */}
+          <div className="setting-group">
+            <label className="toggle-label">
+              <span>Celestial Horizon (Sun, Moon & Arc)</span>
+              <button
+                className={`toggle-switch ${settings.timeOfDayEnabled ? 'active' : ''}`}
+                onClick={() => onUpdate({ timeOfDayEnabled: !settings.timeOfDayEnabled })}
+                role="switch"
+                aria-checked={settings.timeOfDayEnabled}
+              >
+                <span className="toggle-knob" />
+              </button>
+            </label>
+          </div>
+
+          {settings.timeOfDayEnabled && (
+            <>
+              <div className="setting-group">
+                <label className="toggle-label">
+                  <span>Auto-match Dark/Light theme to Day/Night</span>
+                  <button
+                    className={`toggle-switch ${settings.autoMatchThemeToTime ? 'active' : ''}`}
+                    onClick={() => onUpdate({ autoMatchThemeToTime: !settings.autoMatchThemeToTime })}
+                    role="switch"
+                    aria-checked={settings.autoMatchThemeToTime}
+                  >
+                    <span className="toggle-knob" />
+                  </button>
+                </label>
+              </div>
+
+              <div className="setting-group">
+                <label>
+                  <span>Time-of-day Arc</span>
+                  <span className="setting-value">{formatHour(settings.previewHour)}</span>
+                </label>
+                <div className="time-preview-slider-wrap">
+                  <input
+                    type="range"
+                    min="0"
+                    max="23.9"
+                    step="0.5"
+                    value={settings.previewHour !== null ? settings.previewHour : new Date().getHours() + new Date().getMinutes() / 60}
+                    onChange={(e) => onUpdate({ previewHour: Number(e.target.value) })}
+                    className="setting-slider"
+                  />
+                  {settings.previewHour !== null && (
+                    <button
+                      type="button"
+                      className="reset-time-btn"
+                      onClick={() => onUpdate({ previewHour: null })}
+                    >
+                      Reset to Live Time
+                    </button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+
+          <hr className="setting-divider" />
+
+          {/* Timer Durations */}
           <div className="setting-group">
             <label>
               Work Duration

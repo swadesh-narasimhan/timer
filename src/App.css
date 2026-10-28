@@ -243,6 +243,167 @@ body {
 }
 
 /* ===========================
+   Celestial Horizon & Sun/Moon
+   =========================== */
+
+.celestial-horizon-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.atmospheric-sky-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: background 3s ease;
+}
+
+.celestial-horizon-container.dawn .atmospheric-sky-tint {
+  background: radial-gradient(ellipse at 50% 75%, rgba(255, 150, 100, 0.08) 0%, transparent 65%);
+}
+
+.celestial-horizon-container.dusk .atmospheric-sky-tint {
+  background: radial-gradient(ellipse at 50% 75%, rgba(220, 100, 140, 0.09) 0%, transparent 70%);
+}
+
+.celestial-horizon-container.night .atmospheric-sky-tint {
+  background: radial-gradient(ellipse at 50% 30%, rgba(40, 70, 120, 0.06) 0%, transparent 60%);
+}
+
+/* Celestial Bodies */
+.celestial-body {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 1.2s cubic-bezier(0.2, 0, 0.4, 1), top 1.2s cubic-bezier(0.2, 0, 0.4, 1), opacity 0.8s ease;
+}
+
+/* Minimalist Sun */
+.celestial-sun {
+  width: 90px;
+  height: 90px;
+}
+
+.sun-corona {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 120, 0.28) 0%, rgba(255, 180, 80, 0.08) 45%, transparent 70%);
+  filter: blur(6px);
+}
+
+.sun-disc {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffaf0 20%, #ffe090 70%, rgba(255, 200, 100, 0.5) 100%);
+  box-shadow: 0 0 16px rgba(255, 210, 120, 0.4);
+}
+
+/* Minimalist Moon */
+.celestial-moon {
+  width: 80px;
+  height: 80px;
+  color: rgba(220, 238, 255, 0.7);
+}
+
+.moon-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(180, 220, 255, 0.22) 0%, rgba(140, 190, 240, 0.06) 45%, transparent 70%);
+  filter: blur(5px);
+}
+
+.moon-crescent-svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 8px rgba(190, 225, 255, 0.5));
+}
+
+/* Minimalist Horizon Line */
+.horizon-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizon-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60px;
+  pointer-events: none;
+  filter: blur(10px);
+}
+
+.app.dark .horizon-glow {
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 75%);
+}
+
+.app.light .horizon-glow {
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.035) 0%, transparent 75%);
+}
+
+.celestial-horizon-container.dawn .horizon-glow {
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 170, 110, 0.12) 0%, transparent 80%) !important;
+}
+
+.celestial-horizon-container.dusk .horizon-glow {
+  background: radial-gradient(ellipse at 50% 50%, rgba(235, 120, 140, 0.12) 0%, transparent 80%) !important;
+}
+
+.horizon-svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.14;
+  transition: opacity var(--transition-slow);
+}
+
+.app.dark .horizon-svg {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.app.light .horizon-svg {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.time-preview-slider-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.reset-time-btn {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--ring-color);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.reset-time-btn:hover {
+  background: var(--glass-bg-hover);
+}
+
+/* ===========================
    Seasonal Particle Canvas
    =========================== */
 

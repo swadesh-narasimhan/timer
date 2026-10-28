@@ -3,6 +3,7 @@ import { useAppContext } from './context/AppContext';
 import useTimer from './hooks/useTimer';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import SeasonalEffect from './components/SeasonalEffect';
+import CelestialHorizon from './components/CelestialHorizon';
 import SeasonPicker from './components/SeasonPicker';
 import Timer from './components/Timer';
 import Controls from './components/Controls';
@@ -70,6 +71,12 @@ export default function App() {
   return (
     <div className={`app ${theme}`} data-session={sessionType} data-season={season}>
       <div className="background-gradient" />
+      <CelestialHorizon
+        season={season}
+        theme={theme}
+        previewHour={state.settings.previewHour}
+        enabled={state.settings.timeOfDayEnabled}
+      />
       <SeasonalEffect season={season} />
 
       <div className="app-header">

@@ -1,4 +1,4 @@
-import { createContext, useContext, useCallback, useMemo, type ReactNode } from 'react';
+import { createContext, useContext, useCallback, useMemo, useEffect, type ReactNode } from 'react';
 import type { Settings, PomodoroSession, AppState, Season } from '../types';
 import { DEFAULT_SETTINGS } from '../types';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -69,6 +69,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
     },
     [setState]
   );
+
+  // If user enabled auto-matching theme to time of day
+  useEffect(() => {
+    if (!state.settings.autoMatchThemeToTime) return;
+
+    const checkTimeTheme = () => {
+      const now = new Date();
+      const hour = state.settings.previewHour !== null ? state.settings.previewHour : now.getHours();
+      const isDaytime = hour >= 6 && hour < 18;
+      setTheme(isDaytime ? 'light' : 'dark');
+    };
+
+    checkTimeTheme();
+    const interval = setInterval(checkTimeTheme, 60000);
+    return () => clearInterval(interval);
+  }, [state.settings.autoMatchThemeToTime, state.settings.previewHour, setTheme]);
 
   const season = state.settings.season || 'monsoon';
 

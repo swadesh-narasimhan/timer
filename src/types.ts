@@ -23,6 +23,9 @@ export interface Settings {
   volume: number;
   season: Season;
   autoCycleSeasons: boolean;
+  timeOfDayEnabled: boolean;
+  autoMatchThemeToTime: boolean;
+  previewHour: number | null;
 }
 
 export interface AppState {
@@ -41,4 +44,7 @@ export const DEFAULT_SETTINGS: Settings = {
   volume: 0.7,
   season: 'monsoon',
   autoCycleSeasons: false,
+  timeOfDayEnabled: true,
+  autoMatchThemeToTime: false,
+  previewHour: null,
 };
