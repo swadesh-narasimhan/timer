@@ -33,6 +33,10 @@ export default function KeyboardHints() {
           <kbd>D</kbd>
           <span>Dark / Light</span>
         </div>
+        <div className="shortcut-row">
+          <kbd>M</kbd>
+          <span>Next Season</span>
+        </div>
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ export type TimerState = 'idle' | 'running' | 'paused';
 
 export type SessionType = 'work' | 'shortBreak' | 'longBreak';
 
+export type Season = 'monsoon' | 'summer' | 'spring' | 'tropicalWinter';
+
 export interface PomodoroSession {
   id: string;
   type: SessionType;
@@ -9,6 +11,7 @@ export interface PomodoroSession {
   completedAt: number;
   duration: number;
   taskLabel?: string;
+  season?: Season;
 }
 
 export interface Settings {
@@ -18,6 +21,8 @@ export interface Settings {
   longBreakInterval: number;
   soundEnabled: boolean;
   volume: number;
+  season: Season;
+  autoCycleSeasons: boolean;
 }
 
 export interface AppState {
@@ -34,4 +39,6 @@ export const DEFAULT_SETTINGS: Settings = {
   longBreakInterval: 4,
   soundEnabled: true,
   volume: 0.7,
+  season: 'monsoon',
+  autoCycleSeasons: false,
 };

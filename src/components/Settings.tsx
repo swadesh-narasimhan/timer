@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import type { Settings } from '../types';
+import type { Settings, Season } from '../types';
+import { SEASONS, SEASON_LABELS } from '../context/AppContext';
 
 interface SettingsProps {
   settings: Settings;
@@ -31,6 +32,46 @@ export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
         </div>
 
         <div className="settings-content">
+          {/* Season Settings */}
+          <div className="setting-group">
+            <label>
+              Atmosphere / Season
+            </label>
+            <div className="season-settings-grid">
+              {SEASONS.map((s) => {
+                const info = SEASON_LABELS[s];
+                const active = settings.season === s;
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    className={`season-grid-btn ${active ? 'active' : ''}`}
+                    onClick={() => onUpdate({ season: s })}
+                  >
+                    <span className="season-grid-icon">{info.icon}</span>
+                    <span className="season-grid-title">{info.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="setting-group">
+            <label className="toggle-label">
+              <span>Auto-cycle seasons on completion</span>
+              <button
+                className={`toggle-switch ${settings.autoCycleSeasons ? 'active' : ''}`}
+                onClick={() => onUpdate({ autoCycleSeasons: !settings.autoCycleSeasons })}
+                role="switch"
+                aria-checked={settings.autoCycleSeasons}
+              >
+                <span className="toggle-knob" />
+              </button>
+            </label>
+          </div>
+
+          <hr className="setting-divider" />
+
           <div className="setting-group">
             <label>
               Work Duration
@@ -93,7 +134,7 @@ export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
 
           <div className="setting-group">
             <label className="toggle-label">
-              Sound
+              <span>Sound</span>
               <button
                 className={`toggle-switch ${settings.soundEnabled ? 'active' : ''}`}
                 onClick={() => onUpdate({ soundEnabled: !settings.soundEnabled })}

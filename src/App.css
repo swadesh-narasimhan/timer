@@ -44,6 +44,39 @@
   --bar-bg: rgba(255, 255, 255, 0.06);
 }
 
+/* Seasonal Dark Themes */
+.app.dark[data-season="monsoon"] {
+  --bg-primary: #071318;
+  --bg-secondary: #0d212b;
+  --bg-tertiary: #0a1b18;
+  --glass-bg: rgba(200, 230, 255, 0.05);
+  --glass-border: rgba(180, 220, 240, 0.14);
+}
+
+.app.dark[data-season="summer"] {
+  --bg-primary: #170d07;
+  --bg-secondary: #271408;
+  --bg-tertiary: #1e1108;
+  --glass-bg: rgba(255, 230, 200, 0.05);
+  --glass-border: rgba(255, 190, 140, 0.15);
+}
+
+.app.dark[data-season="spring"] {
+  --bg-primary: #130e17;
+  --bg-secondary: #171b14;
+  --bg-tertiary: #1c0f1b;
+  --glass-bg: rgba(255, 220, 240, 0.05);
+  --glass-border: rgba(245, 185, 215, 0.15);
+}
+
+.app.dark[data-season="tropicalWinter"] {
+  --bg-primary: #07121c;
+  --bg-secondary: #0c1a2c;
+  --bg-tertiary: #081724;
+  --glass-bg: rgba(210, 240, 255, 0.05);
+  --glass-border: rgba(180, 225, 255, 0.15);
+}
+
 /* ===========================
    Light Theme
    =========================== */
@@ -71,6 +104,31 @@
   --kbd-border: rgba(0, 0, 0, 0.15);
 
   --bar-bg: rgba(0, 0, 0, 0.05);
+}
+
+/* Seasonal Light Themes */
+.app.light[data-season="monsoon"] {
+  --bg-primary: #dbeae8;
+  --bg-secondary: #cee0e4;
+  --bg-tertiary: #d6e8dd;
+}
+
+.app.light[data-season="summer"] {
+  --bg-primary: #fff3e2;
+  --bg-secondary: #ffe9d6;
+  --bg-tertiary: #ffe3d8;
+}
+
+.app.light[data-season="spring"] {
+  --bg-primary: #fdf1f5;
+  --bg-secondary: #eff7ee;
+  --bg-tertiary: #fbf2ff;
+}
+
+.app.light[data-season="tropicalWinter"] {
+  --bg-primary: #e5f3fa;
+  --bg-secondary: #e0eef7;
+  --bg-tertiary: #ebf6ff;
 }
 
 /* ===========================
@@ -185,14 +243,257 @@ body {
 }
 
 /* ===========================
-   Rain Canvas
+   Seasonal Particle Canvas
    =========================== */
 
-.rain-canvas {
+.rain-canvas,
+.seasonal-canvas {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+}
+
+/* ===========================
+   Season Picker
+   =========================== */
+
+.season-picker-container {
+  position: relative;
+}
+
+.season-picker-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--glass-shadow);
+}
+
+.season-picker-trigger:hover {
+  background: var(--glass-bg-hover);
+  transform: translateY(-1px);
+}
+
+.season-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.season-auto-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--ring-color);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px var(--ring-glow);
+}
+
+.season-chevron {
+  opacity: 0.6;
+  transition: transform var(--transition-fast);
+}
+
+.season-chevron.open {
+  transform: rotate(180deg);
+}
+
+.season-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 290px;
+  background: var(--bg-secondary);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  padding: 12px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: dropdownIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.season-dropdown-header {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 2px 4px 6px 4px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.season-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.season-option-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.season-option-item:hover {
+  background: var(--glass-bg-hover);
+}
+
+.season-option-item.selected {
+  background: var(--glass-bg);
+  border-color: var(--ring-color);
+  box-shadow: 0 0 12px var(--ring-glow);
+}
+
+.season-option-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.season-option-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.season-option-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.season-option-desc {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.25;
+}
+
+.season-check-icon {
+  stroke: var(--ring-color);
+  flex-shrink: 0;
+}
+
+.season-dropdown-footer {
+  border-top: 1px solid var(--glass-border);
+  padding-top: 8px;
+}
+
+.season-auto-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.season-auto-toggle input {
+  accent-color: var(--ring-color);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.season-toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.season-toggle-label strong {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+}
+
+.season-toggle-label small {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Season grid in Settings */
+.season-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.season-grid-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.season-grid-btn:hover {
+  background: var(--glass-bg-hover);
+}
+
+.season-grid-btn.active {
+  border-color: var(--ring-color);
+  box-shadow: 0 0 12px var(--ring-glow);
+  background: var(--glass-bg-hover);
+}
+
+.season-grid-icon {
+  font-size: 1.5rem;
+}
+
+.season-grid-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.setting-divider {
+  border: none;
+  height: 1px;
+  background: var(--glass-border);
+  margin: 12px 0;
 }
 
 /* ===========================
@@ -849,6 +1150,19 @@ kbd {
 
   .app-header {
     padding: 14px 16px;
+  }
+
+  .season-picker-trigger {
+    padding: 6px 10px;
+  }
+
+  .season-picker-trigger .season-name {
+    display: none;
+  }
+
+  .season-dropdown {
+    width: 260px;
+    right: -20px;
   }
 
   .glass-panel {

@@ -2,7 +2,8 @@ import { useCallback } from 'react';
 import { useAppContext } from './context/AppContext';
 import useTimer from './hooks/useTimer';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
-import RainEffect from './components/RainEffect';
+import SeasonalEffect from './components/SeasonalEffect';
+import SeasonPicker from './components/SeasonPicker';
 import Timer from './components/Timer';
 import Controls from './components/Controls';
 import SettingsPanel from './components/Settings';
@@ -13,7 +14,16 @@ import type { PomodoroSession } from './types';
 import './App.css';
 
 export default function App() {
-  const { state, theme, updateSettings, addSession, toggleTheme } = useAppContext();
+  const {
+    state,
+    theme,
+    season,
+    setSeason,
+    nextSeason,
+    updateSettings,
+    addSession,
+    toggleTheme,
+  } = useAppContext();
 
   const handleSessionComplete = useCallback(
     (session: PomodoroSession) => {
@@ -54,12 +64,13 @@ export default function App() {
     onReset: reset,
     onSkip: skip,
     onToggleTheme: toggleTheme,
+    onNextSeason: nextSeason,
   });
 
   return (
-    <div className={`app ${theme}`} data-session={sessionType}>
+    <div className={`app ${theme}`} data-session={sessionType} data-season={season}>
       <div className="background-gradient" />
-      <RainEffect />
+      <SeasonalEffect season={season} />
 
       <div className="app-header">
         <div className="header-left">
@@ -70,6 +81,12 @@ export default function App() {
           />
         </div>
         <div className="header-right">
+          <SeasonPicker
+            currentSeason={season}
+            autoCycle={state.settings.autoCycleSeasons}
+            onSelectSeason={setSeason}
+            onToggleAutoCycle={(auto) => updateSettings({ autoCycleSeasons: auto })}
+          />
           <SettingsPanel settings={state.settings} onUpdate={updateSettings} />
           <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>

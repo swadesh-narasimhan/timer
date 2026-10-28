@@ -5,6 +5,7 @@ interface KeyboardShortcutHandlers {
   onReset: () => void;
   onSkip: () => void;
   onToggleTheme: () => void;
+  onNextSeason?: () => void;
 }
 
 export default function useKeyboardShortcuts(handlers: KeyboardShortcutHandlers) {
@@ -37,6 +38,12 @@ export default function useKeyboardShortcuts(handlers: KeyboardShortcutHandlers)
           if (!e.metaKey && !e.ctrlKey) {
             e.preventDefault();
             handlers.onToggleTheme();
+          }
+          break;
+        case 'KeyM':
+          if (!e.metaKey && !e.ctrlKey && handlers.onNextSeason) {
+            e.preventDefault();
+            handlers.onNextSeason();
           }
           break;
       }
