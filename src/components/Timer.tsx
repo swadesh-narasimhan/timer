@@ -32,7 +32,8 @@ export default function Timer({
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference * (1 - progress);
 
-  const streakDisplay = currentStreak % longBreakInterval || (currentStreak > 0 ? longBreakInterval : 0);
+  const cycleLength = Math.max(1, longBreakInterval);
+  const streakDisplay = currentStreak % cycleLength || (currentStreak > 0 ? cycleLength : 0);
 
   return (
     <div className={`timer-container session-${sessionType}`}>
@@ -66,8 +67,10 @@ export default function Timer({
         <div className="timer-content">
           <div className="timer-time">{timeStr}</div>
           <div className="timer-label">{SESSION_LABELS[sessionType]}</div>
-          <div className="timer-streak">
-            🍅 {streakDisplay}/{longBreakInterval}
+          <div className="timer-streak" role="group" aria-label={`${streakDisplay} of ${cycleLength} focus sessions completed in this cycle`} title={`${streakDisplay} of ${cycleLength} focus sessions completed`}>
+            {Array.from({ length: cycleLength }, (_, i) => (
+              <span key={i} className={`session-dot ${i < streakDisplay ? 'completed' : ''}`} aria-hidden="true" />
+            ))}
           </div>
         </div>
       </div>

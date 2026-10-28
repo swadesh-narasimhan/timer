@@ -1,3 +1,4 @@
+import { Icon } from './Icons';
 import { useState } from 'react';
 
 export default function KeyboardHints() {
@@ -11,9 +12,9 @@ export default function KeyboardHints() {
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
         title="Keyboard shortcuts"
-        aria-label="Show keyboard shortcuts"
+        aria-label="Show keyboard shortcuts" aria-expanded={isOpen}
       >
-        ?
+        <Icon name="help" />
       </button>
 
       <div className={`keyboard-hints-tooltip glass-card ${isOpen ? 'open' : ''}`}>

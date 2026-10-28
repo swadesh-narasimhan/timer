@@ -1,3 +1,4 @@
+import { Icon, SeasonIcon } from './Icons';
 import { useState, useRef, useEffect } from 'react';
 import type { Season } from '../types';
 import { SEASONS, SEASON_LABELS } from '../context/AppContext';
@@ -41,10 +42,10 @@ export default function SeasonPicker({
         className="season-picker-trigger"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={`Current season: ${activeLabel.name}. Click to change season.`}
-        title="Change Season & Atmosphere"
+        title="Change season and atmosphere" aria-expanded={isOpen}
       >
-        <span className="season-icon" role="img" aria-hidden="true">
-          {activeLabel.icon}
+        <span className="season-icon" aria-hidden="true">
+          <SeasonIcon season={currentSeason} />
         </span>
         <span className="season-name">{activeLabel.name}</span>
         {autoCycle && <span className="season-auto-badge" title="Auto-cycles on Pomodoro completion">Auto</span>}
@@ -82,7 +83,7 @@ export default function SeasonPicker({
                     setIsOpen(false);
                   }}
                 >
-                  <span className="season-option-icon">{info.icon}</span>
+                  <span className="season-option-icon"><SeasonIcon season={s} /></span>
                   <div className="season-option-details">
                     <span className="season-option-name">{info.name}</span>
                     <span className="season-option-desc">{info.description}</span>

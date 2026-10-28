@@ -1,3 +1,4 @@
+import { Icon } from './Icons';
 import { useState, useMemo } from 'react';
 import type { PomodoroSession } from '../types';
 
@@ -70,7 +71,7 @@ export default function Stats({ sessions, totalCompleted, currentStreak }: Stats
         title="Statistics"
         aria-label="Open statistics"
       >
-        📊
+        <Icon name="chart" />
       </button>
 
       <div className={`stats-overlay ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)} />
@@ -78,7 +79,7 @@ export default function Stats({ sessions, totalCompleted, currentStreak }: Stats
       <div className={`stats-panel glass-panel ${isOpen ? 'open' : ''}`}>
         <div className="stats-header">
           <h2>Statistics</h2>
-          <button className="icon-btn" onClick={() => setIsOpen(false)} aria-label="Close statistics">✕</button>
+          <button className="icon-btn" onClick={() => setIsOpen(false)} aria-label="Close statistics" title="Close statistics"><Icon name="close" /></button>
         </div>
 
         <div className="stats-content">

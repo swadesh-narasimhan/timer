@@ -1492,3 +1492,15 @@ kbd {
   background: var(--ring-color);
   color: white;
 }
+
+/* Unified SVG icon sizing and keyboard focus visibility */
+.icon-btn svg, .control-btn svg, .season-icon svg, .season-option-icon svg, .season-grid-icon svg { display: block; flex-shrink: 0; }
+.icon-btn:focus-visible, .control-btn:focus-visible, .season-picker-trigger:focus-visible,
+.season-option-item:focus-visible, .season-grid-btn:focus-visible {
+  outline: 2px solid var(--ring-color);
+  outline-offset: 3px;
+}
+.timer-streak { display: flex; justify-content: center; align-items: center; gap: 9px; min-height: 16px; }
+.session-dot { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); opacity: .55; transition: background-color .2s ease, opacity .2s ease; }
+.session-dot.completed { background: var(--ring-color); opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .session-dot { transition: none; } }

@@ -1,3 +1,4 @@
+import { Icon, SeasonIcon } from './Icons';
 import { useState } from 'react';
 import type { Settings } from '../types';
 import { SEASONS, SEASON_LABELS } from '../context/AppContext';
@@ -29,7 +30,7 @@ export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
         title="Settings"
         aria-label="Open settings"
       >
-        ⚙️
+        <Icon name="settings" />
       </button>
 
       {/* Overlay */}
@@ -39,7 +40,7 @@ export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
       <div className={`settings-panel glass-panel ${isOpen ? 'open' : ''}`}>
         <div className="settings-header">
           <h2>Settings</h2>
-          <button className="icon-btn" onClick={() => setIsOpen(false)} aria-label="Close settings">✕</button>
+          <button className="icon-btn" onClick={() => setIsOpen(false)} aria-label="Close settings" title="Close settings"><Icon name="close" /></button>
         </div>
 
         <div className="settings-content">
@@ -57,7 +58,7 @@ export default function SettingsPanel({ settings, onUpdate }: SettingsProps) {
                     className={`season-grid-btn ${active ? 'active' : ''}`}
                     onClick={() => onUpdate({ season: s })}
                   >
-                    <span className="season-grid-icon">{info.icon}</span>
+                    <span className="season-grid-icon"><SeasonIcon season={s} /></span>
                     <span className="season-grid-title">{info.name}</span>
                   </button>
                 );
