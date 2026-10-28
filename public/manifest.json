@@ -1,0 +1,18 @@
+{
+  "name": "Pomodoro — Focus Timer",
+  "short_name": "Pomodoro",
+  "description": "Minimalist Pomodoro timer with atmospheric seasons and celestial horizon",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#071318",
+  "theme_color": "#071318",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

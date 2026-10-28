@@ -172,16 +172,44 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
-  height: 100%;
+html {
+  margin: 0;
+  padding: 0;
   width: 100%;
-  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100%;
+  background-color: var(--bg-primary, #071318);
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100%;
+  background-color: var(--bg-primary, #071318);
+  color: var(--text-primary);
+  overflow: hidden;
+  overscroll-behavior: none;
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary, #071318);
 }
 
 /* ===========================
@@ -191,18 +219,30 @@ body {
 .app {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   color: var(--text-primary);
-  transition: color var(--transition-slow);
+  background-color: var(--bg-primary, #071318);
+  transition: color var(--transition-slow), background-color var(--transition-slow);
 }
 
 .background-gradient {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   z-index: 0;
   transition: background var(--transition-bg);
+  pointer-events: none;
 }
 
 .app.dark .background-gradient {
@@ -248,7 +288,14 @@ body {
 
 .celestial-horizon-container {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
@@ -410,7 +457,14 @@ body {
 .rain-canvas,
 .seasonal-canvas {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   z-index: 1;
   pointer-events: none;
 }
@@ -667,7 +721,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px 24px;
+  padding-top: max(20px, env(safe-area-inset-top, 20px));
+  padding-bottom: 12px;
+  padding-left: max(24px, env(safe-area-inset-left, 24px));
+  padding-right: max(24px, env(safe-area-inset-right, 24px));
 }
 
 .header-left,
@@ -690,7 +747,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 32px;
-  padding-bottom: 60px;
+  padding-left: max(16px, env(safe-area-inset-left, 16px));
+  padding-right: max(16px, env(safe-area-inset-right, 16px));
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
 }
 
 /* ===========================
@@ -699,8 +758,8 @@ body {
 
 .app-footer {
   position: fixed;
-  bottom: 20px;
-  right: 24px;
+  bottom: max(20px, env(safe-area-inset-bottom, 20px));
+  right: max(24px, env(safe-area-inset-right, 24px));
   z-index: 10;
 }
 
@@ -907,14 +966,18 @@ body {
   right: -400px;
   width: 360px;
   max-width: 90vw;
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
   z-index: 100;
   background: var(--glass-bg);
   backdrop-filter: blur(30px) saturate(200%);
   -webkit-backdrop-filter: blur(30px) saturate(200%);
   border-left: 1px solid var(--glass-border);
   box-shadow: -8px 0 32px rgba(0, 0, 0, 0.3);
-  padding: 24px;
+  padding-top: max(24px, calc(16px + env(safe-area-inset-top, 0px)));
+  padding-bottom: max(24px, calc(16px + env(safe-area-inset-bottom, 0px)));
+  padding-left: max(20px, calc(16px + env(safe-area-inset-left, 0px)));
+  padding-right: max(20px, calc(16px + env(safe-area-inset-right, 0px)));
   overflow-y: auto;
   transition: right 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
@@ -1310,7 +1373,15 @@ kbd {
   }
 
   .app-header {
-    padding: 14px 16px;
+    padding-top: max(14px, env(safe-area-inset-top, 14px));
+    padding-bottom: 8px;
+    padding-left: max(16px, env(safe-area-inset-left, 16px));
+    padding-right: max(16px, env(safe-area-inset-right, 16px));
+  }
+
+  .app-footer {
+    bottom: max(14px, env(safe-area-inset-bottom, 14px));
+    right: max(16px, env(safe-area-inset-right, 16px));
   }
 
   .season-picker-trigger {
@@ -1323,7 +1394,7 @@ kbd {
 
   .season-dropdown {
     width: 260px;
-    right: -20px;
+    right: -10px;
   }
 
   .glass-panel {
@@ -1340,6 +1411,59 @@ kbd {
 
   .timer-time {
     font-size: 2.8rem;
+  }
+}
+
+/* Mobile Safari Landscape orientation support */
+@media (orientation: landscape) and (max-height: 540px) {
+  .app-header {
+    padding-top: max(6px, env(safe-area-inset-top, 6px));
+    padding-bottom: 4px;
+    padding-left: max(16px, env(safe-area-inset-left, 16px));
+    padding-right: max(16px, env(safe-area-inset-right, 16px));
+  }
+
+  .app-main {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    padding-top: 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+    padding-left: max(20px, env(safe-area-inset-left, 20px));
+    padding-right: max(20px, env(safe-area-inset-right, 20px));
+  }
+
+  .timer-circle-wrapper {
+    width: 175px;
+    height: 175px;
+  }
+
+  .timer-time {
+    font-size: 2.4rem;
+  }
+
+  .timer-label {
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+  }
+
+  .controls {
+    gap: 14px;
+  }
+
+  .control-btn.primary {
+    width: 52px;
+    height: 52px;
+  }
+
+  .control-btn.secondary {
+    width: 40px;
+    height: 40px;
+  }
+
+  .app-footer {
+    display: none;
   }
 }
 

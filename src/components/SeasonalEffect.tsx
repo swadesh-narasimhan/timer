@@ -95,6 +95,7 @@ export default function SeasonalEffect({ season }: SeasonalEffectProps) {
 
     resize();
     window.addEventListener('resize', resize);
+    window.addEventListener('orientationchange', resize);
 
     const { w, h } = sizeRef.current;
 
@@ -355,6 +356,7 @@ export default function SeasonalEffect({ season }: SeasonalEffectProps) {
     return () => {
       cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('orientationchange', resize);
     };
   }, [season]);
 

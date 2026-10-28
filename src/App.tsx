@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAppContext } from './context/AppContext';
 import useTimer from './hooks/useTimer';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
@@ -14,6 +14,21 @@ import KeyboardHints from './components/KeyboardHints';
 import type { PomodoroSession } from './types';
 import './App.css';
 
+const SEASON_THEME_COLORS: Record<'dark' | 'light', Record<string, string>> = {
+  dark: {
+    monsoon: '#071318',
+    summer: '#170d07',
+    spring: '#130e17',
+    tropicalWinter: '#07121c',
+  },
+  light: {
+    monsoon: '#dbeae8',
+    summer: '#fff3e2',
+    spring: '#fdf1f5',
+    tropicalWinter: '#e5f3fa',
+  },
+};
+
 export default function App() {
   const {
     state,
@@ -25,6 +40,27 @@ export default function App() {
     addSession,
     toggleTheme,
   } = useAppContext();
+
+  // Synchronize root document background and mobile Safari theme-color meta tag
+  useEffect(() => {
+    const activeColor =
+      SEASON_THEME_COLORS[theme]?.[season] || (theme === 'dark' ? '#0a0a1a' : '#e8f5e9');
+
+    // Prevent white edges / rubber-banding seams on mobile Safari
+    document.documentElement.style.backgroundColor = activeColor;
+    document.body.style.backgroundColor = activeColor;
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-season', season);
+
+    // Update Safari dynamic address bar / status bar tint
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'theme-color');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', activeColor);
+  }, [theme, season]);
 
   const handleSessionComplete = useCallback(
     (session: PomodoroSession) => {
